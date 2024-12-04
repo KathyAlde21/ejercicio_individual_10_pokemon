@@ -71,7 +71,7 @@
                     android:text="@string/sSquirtle"
                     android:textColor="@color/white" />
 
-            </RadioGroup>
+           </RadioGroup>
         </LinearLayout>
 
         <!--        boton-->
