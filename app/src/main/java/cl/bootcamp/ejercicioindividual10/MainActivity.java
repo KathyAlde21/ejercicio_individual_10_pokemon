@@ -2,6 +2,7 @@ package cl.bootcamp.ejercicioindividual10;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Configuracion inicial
         loadFragment(new DefaultFragment());
+        assert binding.cancelButton != null;
         binding.cancelButton.setVisibility(View.GONE);
+        assert binding.confirmButton != null;
         binding.confirmButton.setVisibility(View.GONE);
 
         //listener para el boton elegir
@@ -68,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
         //listener para el boton confirmar
         binding.confirmButton.setOnClickListener (v -> {
             Toast.makeText(MainActivity.this, "¡Pokémon confirmado!", Toast.LENGTH_SHORT).show();
+            int selectedId = binding.pokemonGroup.getCheckedRadioButtonId();
+
+            if (selectedId != -1) {
+                RadioButton selectedPokemon = findViewById(selectedId);
+                String pokemonName = selectedPokemon.getText().toString();
+                Intent intent = new Intent(MainActivity.this, ConfirmPokemonActivity.class);
+                intent.putExtra("pokemon_name", pokemonName);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MainActivity.this, "¡Por favor selecciona un Pokémon antes de confirmar!", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -117,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        assert binding.fragmentContainer != null;
         transaction.replace(binding.fragmentContainer.getId(), fragment);
         transaction.commit();
     }

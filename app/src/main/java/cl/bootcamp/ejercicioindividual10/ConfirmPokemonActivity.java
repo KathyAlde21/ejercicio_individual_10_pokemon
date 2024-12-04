@@ -1,6 +1,7 @@
 package cl.bootcamp.ejercicioindividual10;
 
 import android.os.Bundle;
+import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -12,12 +13,18 @@ public class ConfirmPokemonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_confirm_pokemon);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        // Recuperar el nombre del Pokémon seleccionado
+        TextView pokemonNameText = findViewById(R.id.pokemon_name_text);
+        String pokemonName = getIntent().getStringExtra("pokemon_name");
+
+        // Mostrar el nombre del Pokémon
+        if (pokemonName != null) {
+            pokemonNameText.setText("Has seleccionado a: " + pokemonName);
+        } else {
+            pokemonNameText.setText("No se seleccionó ningún Pokémon.");
+
+        }
     }
 }
